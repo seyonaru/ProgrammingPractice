@@ -183,9 +183,57 @@ int usingMalloc() {
     free(d);
     return 0;
 }
+int usingNew() {
+    int i;
+    int n;
+    float* a;//massive of numbers 
+    float* b;//massive of pointers
 
+    cout << "Size of massive -> ";
+    cin >> n;
+    cout << "\n";
+
+    a = new float[n];
+    b = new float[n];
+
+    if (a == NULL || b == NULL) {
+        cout << "Error in resizing storage";
+        return 1;
+    }
+
+    for (i = 0; i < n; i++) {
+        a[i] = rand() % 1000 / 1000. + rand() % 2000 - 1000;
+    }
+
+    for (i = 0; i < n; i++) {
+        b[i] = *(a + i);
+    }
+    int minId;
+    for (int i = 0; i < n - 1; i++) {
+        minId = i;
+        for (int j = i + 1; j < n; j++) {
+            if (b[j] < b[minId]) minId = j;
+        }
+        if (minId != i) {
+            swap(b[minId], b[i]);
+        }
+    }
+    cout << "main massive: [ ";
+    for (i = 0; i < n; i++) {
+        cout << a[i] << " ";
+    }
+    cout << "]" << endl;
+
+    cout << "massive of pointers: [ ";
+    for (i = 0; i < n; i++) {
+        cout << b[i] << " ";
+    }
+    cout << "]" << endl;
+    return 0;
+}
 void lab3() {
     usingMalloc();
+    usingNew();
 }
 int main()
 {
