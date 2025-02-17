@@ -224,17 +224,55 @@ int usingNew() {
     }
     cout << "]" << endl;
 
-    cout << "massive of pointers: [ ";
+    cout << "massive of sorted pointers: [ ";
     for (i = 0; i < n; i++) {
         cout << b[i] << " ";
     }
     cout << "]" << endl;
     return 0;
 }
+int Eratosphene() {
+    int n;
+    int p = 2;
+    int* prime;
+
+    cout << "N -> ";
+    cin >> n;
+    cout << "\n";
+
+    prime = new int[n + 1];
+
+    if (prime == NULL) {
+        cout << "Error in resizing storage";
+        return 1;
+    }
+
+    for (int i = 0; i < n + 1; i++) {
+        prime[i] = i;
+    }
+
+    for (p = 2; p <= n; p++) {
+        for (int j = p * p; j < n + 1; j += p) {
+            prime[j] = 0;
+        }
+    }
+
+    cout << "massive of prime numbers: [ ";
+    for (int i = 0; i < n; i++) {
+        if (prime[i] == 0) continue;
+        cout << prime[i] << " ";
+    }
+    cout << "]" << endl;
+
+
+    return 0;
+}
 void lab3() {
     usingMalloc();
     usingNew();
+    Eratosphene();
 }
+
 int main()
 {
     srand(0);
