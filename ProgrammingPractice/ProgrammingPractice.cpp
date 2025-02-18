@@ -145,15 +145,15 @@ int usingMalloc() {
         else cntP++;
     }
 
-    if (c == NULL || d = NULL) {
-        cout << "Error in resizing storage";
-        return 1;
-    }
-
     c = (int*)malloc(cntP * sizeof(int));
     d = (int*)malloc(cntN * sizeof(int));
     int tempN = 0;
     int tempP = 0;
+
+    if (c == NULL || d = NULL) {
+            cout << "Error in resizing storage";
+            return 1;
+        }
 
     for (i = 0; i < n; i++) {
         if (b[i] < 0) {
