@@ -145,10 +145,16 @@ int usingMalloc() {
         else cntP++;
     }
 
+    if (c == NULL || d = NULL) {
+        cout << "Error in resizing storage";
+        return 1;
+    }
+
     c = (int*)malloc(cntP * sizeof(int));
     d = (int*)malloc(cntN * sizeof(int));
     int tempN = 0;
     int tempP = 0;
+
     for (i = 0; i < n; i++) {
         if (b[i] < 0) {
             d[tempN] = b[i];
@@ -229,6 +235,9 @@ int usingNew() {
         cout << b[i] << " ";
     }
     cout << "]" << endl;
+
+    free(a);
+    free(b);
     return 0;
 }
 int Eratosphene() {
@@ -264,7 +273,7 @@ int Eratosphene() {
     }
     cout << "]" << endl;
 
-
+    free(prime);
     return 0;
 }
 void lab3() {
