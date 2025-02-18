@@ -150,7 +150,7 @@ int usingMalloc() {
     int tempN = 0;
     int tempP = 0;
 
-    if (c == NULL || d = NULL) {
+    if (c == NULL || d == NULL) {
             cout << "Error in resizing storage";
             return 1;
         }
@@ -170,19 +170,19 @@ int usingMalloc() {
     for (i = 0; i < n; i++) {
         cout << b[i] << " ";
     }
-    cout << "], Length of massive: "<< n << endl;
+    cout << "], Length of massive: "<< n << endl << "\n";
 
     cout << "massive with positive numbers: [ ";
     for (i = 0; i < cntP; i++) {
         cout << c[i] << " ";
     }
-    cout << "], Length of massive: " << cntP << endl;
+    cout << "], Length of massive: " << cntP << endl << "\n";
 
     cout << "massive with negative numbers: [ ";
     for (i = 0; i < cntN; i++) {
         cout << d[i] << " ";
     }
-    cout << "], Length of massive: " << cntN << endl;
+    cout << "], Length of massive: " << cntN << endl << "\n";
 
     free(b);
     free(c);
@@ -228,16 +228,16 @@ int usingNew() {
     for (i = 0; i < n; i++) {
         cout << a[i] << " ";
     }
-    cout << "]" << endl;
+    cout << "]" << endl << "\n";
 
     cout << "massive of sorted pointers: [ ";
     for (i = 0; i < n; i++) {
         cout << b[i] << " ";
     }
-    cout << "]" << endl;
+    cout << "]" << endl << "\n";
 
-    free(a);
-    free(b);
+    delete a;
+    delete b;
     return 0;
 }
 int Eratosphene() {
@@ -271,14 +271,17 @@ int Eratosphene() {
         if (prime[i] == 0) continue;
         cout << prime[i] << " ";
     }
-    cout << "]" << endl;
+    cout << "]" << endl << "\n";
 
-    free(prime);
+    delete prime;
     return 0;
 }
 void lab3() {
+    cout << "Task 1: " << endl;
     usingMalloc();
+    cout << "Task 2: " << endl;
     usingNew();
+    cout << "Task 3: " << endl;
     Eratosphene();
 }
 
