@@ -285,10 +285,103 @@ void lab3() {
     Eratosphene();
 }
 
+//lab4 
+// ↓ calling RAM for matrix
+int** matrixRAM(int rows, int cols) {
+    int** matrix = new int* [rows];
+    for (int i = 0; i < rows; i++) {
+        matrix[i] = new int[cols];
+    }
+    return matrix;
+}
+// ↓ freeing RAM from matrix
+void matrixFreedom(int** matrix, int rows) {
+    for (int i = 0; i < rows; i++) {
+        delete[] matrix[i];
+    }
+    delete[] matrix;
+}
+// ↓ filling matrix 
+void matrixFilling(int** matrix, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            matrix[i][j] = rand() % 100;
+        }
+    }
+}
+// ↓ printing matrix 
+void matrixPrinting(int** matrix, int rows, int cols) {
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            cout << matrix[i][j] << "\t";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+//        task1
+int RandomBinaryMassive() {
+    int m;
+    int n = 5;
+
+    cout << "M -> ";
+    cin >> m;
+
+    int** b = matrixRAM(m, n);
+    if (!b) {
+        cout << "Error in resizing RAM";
+        return 1;
+    }
+    
+    matrixFilling(b, m, n);
+
+    cout << "Original matrix b: " << endl;
+    matrixPrinting(b, m, n);
+
+    int maxVal = b[0][0];
+    int maxRow = 0;
+    int maxCol = 0;
+    for (int i = 0; i < m; i++) {
+        for (int j = 0; j < n; j++) {
+            if (b[i][j] > maxVal) {
+                maxVal = b[i][j];
+                maxRow = i;
+                maxCol = j;
+            }
+        }
+    }
+
+    int** c = matrixRAM(m - 1, n - 1);
+    for (int i = 0, ci = 0; i < m; i++) {
+        if (i == maxRow) continue;
+        for (int j = 0, cj = 0; j < n; j++) {
+            if (j == maxCol) continue;
+            c[ci][cj++] = b[i][j];
+        }
+        ci++;
+    }
+
+    cout << "modificated matrix c: " << endl;
+    matrixPrinting(c, m - 1, n - 1);
+
+    matrixFreedom(b, m);
+    matrixFreedom(c, m - 1);
+
+    return 0;
+}
+
+void lab4() {
+    cout << "Task 1: " << endl;
+    RandomBinaryMassive();
+    cout << "Task 2: " << endl;
+
+}
+
 int main()
 {
     srand(0);
     //lab1();
     //lab2();
-    lab3();
+    //lab3();
+    lab4();
 }
