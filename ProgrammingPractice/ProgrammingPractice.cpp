@@ -443,15 +443,14 @@ int GeneraeNewMassiveFromAnother() {
     cout << endl;
 
     int* a = new int[m];
-    for (int i = 0; i < m; i++) {
-        a[i] = rand() % 100;
-    }
-
-    if (!a) {
+     if (!a) {
         cout << "Error in resizing RAM";
         return 1;
     }
-
+    for (int i = 0; i < m; i++) {
+        a[i] = rand() % 100;
+    }
+   
     cout << "Massive A: " << endl;
     for (int i = 0; i < m; i++) {
         cout << a[i] << "\t";
@@ -480,6 +479,12 @@ int GeneraeNewMassiveFromAnother() {
     matrixFreedom(b, rows);
 
     return 0;
+}
+int AscendingMultiplicationTable() {
+    int rows = 9;
+    int cols = 1;
+
+
 }
 void lab5() {
     cout << "Task 1: " << endl;
