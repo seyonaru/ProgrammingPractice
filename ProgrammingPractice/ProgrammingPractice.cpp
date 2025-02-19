@@ -369,12 +369,66 @@ int RandomBinaryMassive() {
 
     return 0;
 }
+//        task2
+int ExpandedMatrix() {
+    int m;
+    int n;
 
+    cout << "M -> ";
+    cin >> m;
+    cout << endl << "N -> ";
+    cin >> n;
+    cout << endl;
+
+    int** a = matrixRAM(m, n);
+    if (!a) {
+        cout << "Error in resizing RAM" << endl;
+        return 1;
+    }
+
+    matrixFilling(a, m, n);;
+
+    int** d = matrixRAM(m + 1, n + 1);
+    if (!d) {
+        cout << "Error in resizing RAM" << endl;
+        return 1;
+    }
+    
+    int sumTotal = 0;
+
+    for (int i = 0; i < m; i++) {
+        int sumRow = 0;
+        for (int j = 0; j < n; j++) {
+            d[i][j] = a[i][j];
+            sumRow += a[i][j];
+        }
+        d[i][n] = sumRow;
+        sumTotal += sumRow;
+    }
+
+    for (int j = 0; j < n; j++) {
+        int sumCol = 0;
+        for (int i = 0; i < m; i++) {
+            sumCol += a[i][j];
+        }
+        d[m][j] = sumCol;
+        sumTotal += sumCol;
+    }
+
+    d[m][n] = sumTotal;
+
+    cout << "Expanded matrix d: " << endl;
+    matrixPrinting(d, m + 1, n + 1);
+
+    matrixFreedom(a, m);
+    matrixFreedom(d, m + 1);
+    return 0;
+}
 void lab4() {
     cout << "Task 1: " << endl;
     RandomBinaryMassive();
     cout << "Task 2: " << endl;
-
+    ExpandedMatrix();
 }
 
 int main()
