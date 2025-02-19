@@ -443,14 +443,14 @@ int GeneraeNewMassiveFromAnother() {
     cout << endl;
 
     int* a = new int[m];
-     if (!a) {
+    if (!a) {
         cout << "Error in resizing RAM";
         return 1;
     }
     for (int i = 0; i < m; i++) {
         a[i] = rand() % 100;
     }
-   
+
     cout << "Massive A: " << endl;
     for (int i = 0; i < m; i++) {
         cout << a[i] << "\t";
@@ -484,7 +484,30 @@ int AscendingMultiplicationTable() {
     int rows = 9;
     int cols = 1;
 
+    int** matr = new int* [rows];
+    for (int i = 0; i < rows; i++) {
+        matr[i] = new int[cols];
+        cols++;
+    }
 
+    if (!matr) {
+        cout << "Error in resizing RAM";
+        return 1;
+    }
+
+    for (int i = 0; i < rows; i++) {
+        matr[i][0] = i + 1;
+    }
+
+    for (int i = 1; i < rows; i++) {
+        for (int j = 1; j < rows; j++){
+            if (j > i) continue;
+            matr[i][j] = matr[i - 1][j] + matr[0][j];
+        }
+    }
+
+
+    return 0;
 }
 void lab5() {
     cout << "Task 1: " << endl;
