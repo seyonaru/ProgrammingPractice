@@ -431,11 +431,67 @@ void lab4() {
     ExpandedMatrix();
 }
 
+//lab5
+int GeneraeNewMassiveFromAnother() {
+    int m;
+    int k;
+
+    cout << "M -> ";
+    cin >> m;
+    cout << endl << "K (K < M) -> ";
+    cin >> k;
+    cout << endl;
+
+    int* a = new int[m];
+    for (int i = 0; i < m; i++) {
+        a[i] = rand() % 100;
+    }
+
+    if (!a) {
+        cout << "Error in resizing RAM";
+        return 1;
+    }
+
+    cout << "Massive A: " << endl;
+    for (int i = 0; i < m; i++) {
+        cout << a[i] << "\t";
+    }
+    cout << endl;
+
+    int rows = (m + k - 1) / k;
+    int** b = matrixRAM(rows, k);
+
+    if (!b) {
+        cout << "Error in resizing RAM";
+        return 1;
+    }
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < k; j++) {
+            int id = i * k + j;
+            b[i][j] = (id < m) ? a[id] : 0;
+        }
+    }
+
+    cout << "Matrix b: " << endl;
+    matrixPrinting(b, rows, k);
+
+    delete a;
+    matrixFreedom(b, rows);
+
+    return 0;
+}
+void lab5() {
+    cout << "Task 1: " << endl;
+    GeneraeNewMassiveFromAnother();
+    cout << "Task 2: " << endl;
+}
 int main()
 {
     srand(0);
     //lab1();
     //lab2();
     //lab3();
-    lab4();
+    //lab4();
+    lab5();
 }
