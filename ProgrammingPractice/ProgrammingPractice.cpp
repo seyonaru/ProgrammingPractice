@@ -496,16 +496,22 @@ int AscendingMultiplicationTable() {
     }
 
     for (int i = 0; i < rows; i++) {
-        matr[i][0] = i + 1;
-    }
-
-    for (int i = 1; i < rows; i++) {
-        for (int j = 1; j < rows; j++){
-            if (j > i) continue;
-            matr[i][j] = matr[i - 1][j] + matr[0][j];
+        for (int j = 0; j <= i; j++){
+            matr[i][j] = (i + 1) * (j + 1);
         }
     }
 
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j <= i; j++) {
+            cout << matr[i][j] << "\t";
+        }
+        cout << endl;
+    }
+
+    for (int i = 0; i < rows; i++) {
+        delete matr[i];
+    }
+    delete matr;
 
     return 0;
 }
@@ -513,6 +519,7 @@ void lab5() {
     cout << "Task 1: " << endl;
     GeneraeNewMassiveFromAnother();
     cout << "Task 2: " << endl;
+    AscendingMultiplicationTable();
 }
 int main()
 {
