@@ -2,7 +2,6 @@
 #include <math.h>
 #include <vector>
 #include <stdlib.h>
-#include <conio.h>
 
 using namespace std;
 
@@ -521,6 +520,77 @@ void lab5() {
     cout << "Task 2: " << endl;
     AscendingMultiplicationTable();
 }
+
+//lab6
+bool ExistanceOfTrianlge(int& a, int& b, int& c) {
+    bool ex = true;
+    if ((a + b <= c || a + c <= b || b + c <= a) || (a<0 || b<0 || c<0)) {
+        ex = false;
+    }
+    return ex;
+}
+int Perimeter(int& a, int& b, int& c) {
+    return a + b + c;
+}
+int TriangleSquare(int& a, int& b, int& c) {
+    bool ex = ExistanceOfTrianlge(a, b, c);
+    if (ex == false) return 1;
+    else {
+        int p = a + b + c;
+        int temp = p * (p - a) * (p - b) * (p - c);
+        int s = pow(temp, 0.5);
+        return s;
+    }
+}
+//task1
+void task1() {
+    int a;
+    int b;
+    int c;
+    cout << "Write leght of sides of triangle: \n a: ";
+    cin >> a;
+    cout << "\n b: ";
+    cin >> b;
+    cout << "\n c: ";
+    cin >> c;
+    cout << endl;
+
+    cout << "Perimeter of triangle: " << Perimeter(a, b, c) << ", square: " << TriangleSquare(a, b, c);
+}
+//task2
+int fact(int& n) {
+    int f = 1;
+    for (int i = 1; i <= n; i++) f *= i;
+    return f;
+}
+double c(int& n, int& m) {
+    int fn = fact(n);
+    int fm = fact(m);
+    int temp = n - m;
+    int ftemp = fact(temp);
+    return fn / (fm * ftemp);
+}
+void task2() {
+    int n;
+    int m;
+    cout << "Write amout of children: ";
+    cin >> n;
+    cout << "\nWrite amount of boys OR girls: ";
+    cin >> m;
+
+    float p = 0.45;
+    float q = 1 - p;
+    float pd = c(n, m) * pow(p, m) * pow(q,n - m);
+    float pm = c(n, m) * pow(q, m) * pow(p, n - m);
+
+    cout << "\nChance for girls: " << pd << ", chance for boys: " << pm;
+}
+void lab6() {
+    cout << "Task 1: \n";
+    task1();
+    cout << "\nTask 2: \n";
+    task2();
+}
 int main()
 {
     srand(0);
@@ -528,5 +598,6 @@ int main()
     //lab2();
     //lab3();
     //lab4();
-    lab5();
+    //lab5();
+    lab6();
 }
