@@ -2,7 +2,6 @@
 #include <math.h>
 #include <vector>
 #include <stdlib.h>
-#include <conio.h>
 
 using namespace std;
 
@@ -521,6 +520,47 @@ void lab5() {
     cout << "Task 2: " << endl;
     AscendingMultiplicationTable();
 }
+
+//lab6
+bool ExistanceOfTrianlge(int& a, int& b, int& c) {
+    bool ex = false;
+    if (a + b > c || a + c > b || b + c > a) {
+        ex = true;
+    }
+    return ex;
+}
+int Perimeter(int& a, int& b, int& c) {
+    return a + b + c;
+}
+int TriangleSquare(int& a, int& b, int& c) {
+    bool ex = ExistanceOfTrianlge(a, b, c);
+    if (ex == false) return 1;
+    int p = a + b + c;
+    int temp = p * (p - a) * (p - b) * (p - c);
+    int s = pow(temp, 0.5);
+    return s;
+}
+//task1
+void task1() {
+    int a;
+    int b;
+    int c;
+    cout << "Write leght of sides of triangle: \n a: ";
+    cin >> a;
+    cout << "\n b: ";
+    cin >> b;
+    cout << "\n c: ";
+    cin >> c;
+    cout << endl;
+
+    cout << "Perimeter of triangle: " << Perimeter(a, b, c) << ", square: " << TriangleSquare(a, b, c);
+}
+void lab6() {
+    cout << "Task 1: ";
+    task1();
+    cout << "Task 2: ";
+
+}
 int main()
 {
     srand(0);
@@ -528,5 +568,6 @@ int main()
     //lab2();
     //lab3();
     //lab4();
-    lab5();
+    //lab5();
+    lab6();
 }
