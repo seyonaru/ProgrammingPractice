@@ -591,6 +591,33 @@ void lab6() {
     cout << "\nTask 2: \n";
     task2();
 }
+
+//lab8
+void Task1(struct school& Univ) {
+    const int N = Univ.size();
+
+}
+void lab8() {
+    srand(0);
+    struct school { int number; int finished; int applied; };
+    struct school Univ[10];
+    for (int i = 0; i < 10; i++) {
+        Univ[i].number = rand() % 1000;
+        Univ[i].finished = rand() % 250;
+        Univ[i].applied = rand() % 200;
+        if (Univ[i].finished < Univ[i].applied) Univ[i].applied = rand() % 100;
+    }
+
+    for (int i = 0; i < 10; i++) {
+        cout << "School number: " << Univ[i].number
+            << ", number of students finished shool: " << Univ[i].finished
+            << ", number of students applied to university: " << Univ[i].applied << endl;
+    }
+
+    //cout << "Task 1: ";
+
+    //cout << "\nTask 2: ";
+}
 int main()
 {
     srand(0);
@@ -599,5 +626,6 @@ int main()
     //lab3();
     //lab4();
     //lab5();
-    lab6();
+    //lab6();
+    lab8();
 }
