@@ -631,8 +631,6 @@ void Task1() {
         Univ[i].appliedpercent();
     }
 
-
-
     vector<int> ind = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
     int i; // index for iteration
     int j; // index for right element in current pair
@@ -651,14 +649,93 @@ void Task1() {
     cout << "Index array (after swapping elements): ";
     for (int i : ind) cout << i << "\t";
 }
+
+//task2 
+struct room {
+    int number;
+    int square;
+    string degree;
+    int living;
+
+    void print() {
+        cout << "Room number: " << number
+            << ", \troom square: " << square
+            << ", \troom degree: " << degree
+            << ", \tnumber of living people: " << living
+            << "\n";
+    }
+
+    void filling(int number, int square, string degree, int living) {
+        this->number = number;
+        this->square = square;
+        this->degree = degree;
+        this->living = living;
+    }
+};
+
+void Task2() {
+    struct room dorm[10];
+    string List[] = { "programming", "engineering", "cybersecurity" };
+    for (int i = 0; i < 10; i++) {
+        dorm[i].filling(rand() % 100, rand() % 50, List[rand() % 3], rand() % 10);
+    }
+
+    for (int i = 0; i < 10; i++) {
+        dorm[i].print();
+    }
+
+    double cnt_p = 0, cnt_ps = 0, cnt_pq = 0;
+    double cnt_e = 0, cnt_es = 0, cnt_eq = 0;
+    double cnt_c = 0, cnt_cs = 0, cnt_cq = 0;
+    double apr_pq = 0, apr_eq = 0, apr_cq = 0;
+    for (int i = 0; i < 10; i++) {
+        if (dorm[i].degree == List[0]) {
+            cnt_p++;
+            cnt_ps += dorm[i].living;
+            cnt_pq += dorm[i].square;
+        }
+        if (dorm[i].degree == List[1]) {
+            cnt_e++;
+            cnt_es += dorm[i].living;
+            cnt_eq += dorm[i].square;
+        }
+        if (dorm[i].degree == List[2]) {
+            cnt_c++;
+            cnt_cs += dorm[i].living;
+            cnt_cq += dorm[i].square;
+        }
+    }
+
+    apr_pq = cnt_pq / cnt_ps;
+    apr_eq = cnt_eq / cnt_es;
+    apr_cq = cnt_cq / cnt_cs;
+    cout << "\n Degree:" << List[0]
+        << ", \t amount of rooms: " << cnt_p
+        << ", \t amount of students: " << cnt_ps
+        << ", \t approximate square per student: " << apr_pq
+        <<"\n";
+    cout << "\n Degree:" << List[1]
+        << ", \t amount of rooms: " << cnt_e
+        << ", \t amount of students: " << cnt_es
+        << ", \t approximate square per student: " << apr_eq
+        << "\n";
+    cout << "\n Degree:" << List[2]
+        << ", \t amount of rooms: " << cnt_c
+        << ", \t amount of students: " << cnt_cs
+        << ", \t approximate square per student: " << apr_cq
+        << "\n";
+}
 void lab8() {
     cout << "Task 1: \n";
     Task1();
+
+    cout << "\nTask 2: \n";
+    Task2();
 }
 
 int main()
 {
-    srand(time(0));
+    srand(0);
     //lab1();
     //lab2();
     //lab3();
