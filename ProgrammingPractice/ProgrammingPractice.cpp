@@ -593,34 +593,72 @@ void lab6() {
 }
 
 //lab8
-void Task1(struct school& Univ) {
-    const int N = Univ.size();
+//task1
+struct school
+{
+    int number;
+    int finished;
+    int applied;
+    double percent;
 
-}
-void lab8() {
-    srand(0);
-    struct school { int number; int finished; int applied; };
+    void print()
+    {
+        cout << "Number of school: " << number
+            << ", students finished school: " << finished
+            << ", students applied to university: " << applied
+            << ", percentage of appliance: " << percent << " \n";
+    }
+    void fill()
+    {
+        number = rand() % 1000;
+        finished = rand() % 250;
+        applied = rand() % (finished + 1);
+    }
+    void appliedpercent()
+    {
+        float temp = (float)finished / 100;
+        percent = applied / temp;
+    }
+};
+
+void Task1() {
     struct school Univ[10];
     for (int i = 0; i < 10; i++) {
-        Univ[i].number = rand() % 1000;
-        Univ[i].finished = rand() % 250;
-        Univ[i].applied = rand() % 200;
-        if (Univ[i].finished < Univ[i].applied) Univ[i].applied = rand() % 100;
+        Univ[i].fill();
     }
 
     for (int i = 0; i < 10; i++) {
-        cout << "School number: " << Univ[i].number
-            << ", number of students finished shool: " << Univ[i].finished
-            << ", number of students applied to university: " << Univ[i].applied << endl;
+        Univ[i].appliedpercent();
     }
 
-    //cout << "Task 1: ";
 
-    //cout << "\nTask 2: ";
+
+    vector<int> ind = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    int i; // index for iteration
+    int j; // index for right element in current pair
+    for (i = 0; i < 10 - 1; i++) {
+        for (j = 10 - 1; j > i; j--) {
+            if (Univ[ind[j]].percent > Univ[ind[j - 1]].percent) {
+                swap(ind[j], ind[j - 1]);
+            }
+        }
+    }
+
+    cout << endl;
+    for (int i = 0; i < 10; i++) {
+        Univ[ind[i]].print();
+    }
+    cout << "Index array (after swapping elements): ";
+    for (int i : ind) cout << i << "\t";
 }
+void lab8() {
+    cout << "Task 1: \n";
+    Task1();
+}
+
 int main()
 {
-    srand(0);
+    srand(time(0));
     //lab1();
     //lab2();
     //lab3();
