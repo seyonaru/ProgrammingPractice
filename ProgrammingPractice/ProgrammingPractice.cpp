@@ -431,11 +431,42 @@ void lab4() {
     ExpandedMatrix();
 }
 
+//lab9
+ struct Student {
+        string surname;
+        vector<int> grades;
+    };
+
+ struct Node {
+     Student data;
+     Node* next;
+ };
+
+ void InsertSortStruct(Node*& head, Student student) {
+     Node* newNode = new Node{ student, nullptr };
+     if (!head || head->data.surname < student.surname) {
+         newNode->next = head;
+         head = newNode;
+         return;
+     }
+     Node* curr = head;
+     while (curr->next && curr->next->data.surname < student.surname)
+         curr = curr->next;
+     newNode->next = curr->next;
+     curr->next = newNode;
+ }
+
+
+void lab9() {
+   
+}
 int main()
 {
     srand(0);
     //lab1();
     //lab2();
     //lab3();
-    lab4();
+    //lab4();
+
+    lab9();
 }
