@@ -456,6 +456,14 @@ void lab4() {
      curr->next = newNode;
  }
 
+ void print(Node* head) {
+     while (head) {
+         cout << "Surname: " << head->data.surname << ", grades: ";
+         for (int grade : head->data.grades) cout << grade << " ";
+         cout << endl;
+         head = head->next;
+     }
+ }
 
 void lab9() {
    
