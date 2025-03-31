@@ -466,7 +466,14 @@ void lab4() {
  }
 
 void lab9() {
-   
+    Node* singlelist = nullptr;
+    
+    InsertSortStruct(singlelist, { "Sidorov", {5, 5, 5, 5} });
+    InsertSortStruct(singlelist, { "Petrov", {3, 3, 4, 5} });
+    InsertSortStruct(singlelist, { "Ivanov", {5, 4, 3, 4} });
+    InsertSortStruct(singlelist, { "Petrova", {4, 3, 5, 5} });
+    cout << "Sorted singlehead list: \n";
+    print(singlelist);
 }
 int main()
 {
