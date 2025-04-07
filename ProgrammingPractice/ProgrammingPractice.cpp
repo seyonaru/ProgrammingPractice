@@ -517,6 +517,39 @@ void lab4() {
      }
  }
 
+ struct Tree {
+     Student data;
+     Tree* lt;
+     Tree* rt;
+ };
+
+ Tree* Insert(Tree* root, Student student) {
+     if (!root) return new Tree{ student, nullptr, nullptr };
+     if (student.surname < root->data.surname) root->lt = Insert(root->lt, student);
+     else root->rt = Insert(root->rt, student);
+     return root;
+ }
+
+ void LRR(Tree* root) {
+     if (!root) return;
+     LRR(root->lt);
+     cout << root->data.surname << endl;
+     LRR(root->rt);
+ }
+
+ void RRL(Tree* root) {
+     if (!root) return;
+     RRL(root->rt);
+     cout << root->data.surname << endl;
+     RRL(root->lt);
+ }
+
+ Tree* Search(Tree* root, const string& toFind) {
+     if (!root || root->data.surname == toFind) return root;
+     if (toFind < root->data.surname) return Search(root->lt, toFind);
+     return Search(root->rt, toFind);
+ }
+
 void lab9() {
     Node* singlelist = nullptr;
     
@@ -541,7 +574,26 @@ void lab9() {
     cout << "Список студентов после форматирования: \n";
     print(doubleList);
 
+    cout << endl;
 
+    Tree* tree = nullptr;
+    tree = Insert(tree, { "Сидоров", {5, 5, 5, 5} });
+    tree = Insert(tree, { "Петров", {3, 2, 4, 5} });
+    tree = Insert(tree, { "Иванов", {5, 4, 3, 2} });
+    tree = Insert(tree, { "Петрова", {4, 3, 5, 5} });
+    cout << "Список по возрастанию: \n";
+    LRR(tree);
+    cout << endl;
+    cout << "Список по убыванию: \n";
+    RRL(tree);
+
+    cout << endl; 
+
+    string toFind;
+    cout << "Введите фамилию для поиска: ";
+    cin >> toFind;
+    Tree* found = Search(tree, toFind);
+    cout << (found ? "found" : "not found") << endl;
 }
 int main()
 {
