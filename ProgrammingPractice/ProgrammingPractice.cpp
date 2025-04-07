@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <conio.h>
+#include <algorithm>
 #include <Windows.h>
 
 using namespace std;
@@ -466,6 +467,56 @@ void lab4() {
      }
  }
 
+ struct DoubleNode {
+     Student data;
+     DoubleNode* prev;
+     DoubleNode* next;
+ };
+
+ void Insert(DoubleNode*& head, Student student) {
+     DoubleNode* newNode = new DoubleNode{ student, nullptr, nullptr };
+     if (!head) {
+         head = newNode;
+         return;
+     }
+     DoubleNode* tail = head;
+     while (tail->next) {
+         tail = tail->next;
+     }
+     tail->next = newNode;
+     newNode->prev = tail;
+ }
+
+ void print(DoubleNode* head) {
+     while (head) {
+         cout << "Фамилия: " << head->data.surname << ", оценки: ";
+         for (int grade : head->data.grades) cout << grade << " ";
+         cout << endl;
+         head = head->next;
+     }
+ }
+
+ bool FallGrade(const vector<int>& grades) {
+     return any_of(grades.begin(), grades.end(), [](int a) {return a < 3; });
+ }
+
+ void FallenRemove(DoubleNode*& head) {
+     DoubleNode* curr = head;
+     while (curr) {
+         if (FallGrade(curr->data.grades)) {
+             DoubleNode* del = curr;
+             if (curr->prev) curr->prev->next = curr->next;
+             if (curr->next) curr->next->prev = curr->prev;
+             if (curr == head) head == curr->next;
+             curr = curr->next;
+             delete del;
+         }
+         else {
+             curr = curr->next;
+         }
+     }
+ }
+
 void lab9() {
     Node* singlelist = nullptr;
     
@@ -475,6 +526,22 @@ void lab9() {
     InsertSortStruct(singlelist, { "Петрова", {4, 3, 5, 5} });
     cout << "Отсортированный односвязный список: \n";
     print(singlelist);
+
+    cout << endl;
+
+    DoubleNode* doubleList = nullptr;
+    Insert(doubleList, { "Сидоров", {5, 5, 5, 5} });
+    Insert(doubleList, { "Петров", {3, 2, 4, 5} });
+    Insert(doubleList, { "Иванов", {5, 4, 3, 2} });
+    Insert(doubleList, { "Петрова", {4, 3, 5, 5} });
+    cout << "Список студентов до форматирования: \n";
+    print(doubleList);
+    cout << endl;
+    FallenRemove(doubleList);
+    cout << "Список студентов после форматирования: \n";
+    print(doubleList);
+
+
 }
 int main()
 {
