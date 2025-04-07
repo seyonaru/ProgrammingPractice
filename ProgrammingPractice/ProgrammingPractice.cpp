@@ -3,6 +3,7 @@
 #include <vector>
 #include <stdlib.h>
 #include <conio.h>
+#include <Windows.h>
 
 using namespace std;
 
@@ -444,7 +445,7 @@ void lab4() {
 
  void InsertSortStruct(Node*& head, Student student) {
      Node* newNode = new Node{ student, nullptr };
-     if (!head || head->data.surname < student.surname) {
+     if (!head || head->data.surname > student.surname) {
          newNode->next = head;
          head = newNode;
          return;
@@ -458,7 +459,7 @@ void lab4() {
 
  void print(Node* head) {
      while (head) {
-         cout << "Surname: " << head->data.surname << ", grades: ";
+         cout << "Фамилия: " << head->data.surname << ", оценки: ";
          for (int grade : head->data.grades) cout << grade << " ";
          cout << endl;
          head = head->next;
@@ -468,15 +469,19 @@ void lab4() {
 void lab9() {
     Node* singlelist = nullptr;
     
-    InsertSortStruct(singlelist, { "Sidorov", {5, 5, 5, 5} });
-    InsertSortStruct(singlelist, { "Petrov", {3, 3, 4, 5} });
-    InsertSortStruct(singlelist, { "Ivanov", {5, 4, 3, 4} });
-    InsertSortStruct(singlelist, { "Petrova", {4, 3, 5, 5} });
-    cout << "Sorted singlehead list: \n";
+    InsertSortStruct(singlelist, { "Сидоров", {5, 5, 5, 5} });
+    InsertSortStruct(singlelist, { "Петров", {3, 3, 4, 5} });
+    InsertSortStruct(singlelist, { "Иванов", {5, 4, 3, 4} });
+    InsertSortStruct(singlelist, { "Петрова", {4, 3, 5, 5} });
+    cout << "Отсортированный односвязный список: \n";
     print(singlelist);
 }
 int main()
 {
+    setlocale(LC_ALL, "Russian");
+    SetConsoleOutputCP(1251);
+    SetConsoleCP(1251);
+
     srand(0);
     //lab1();
     //lab2();
