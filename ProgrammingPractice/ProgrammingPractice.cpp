@@ -470,6 +470,70 @@ int lab10() {
     cout << "Слова успешно отсортированы и записаны в output.txt\n";
     return 0;
 }
+
+//lab11
+struct Passenger {
+    string surname;
+    string name;
+    string secondName;
+    int luggagePlace;
+    double totalWeight;
+
+    void print() {
+        cout << surname << "\t"
+            << name << "\t"
+            << secondName << "\t"
+            << luggagePlace << "\t"
+            << totalWeight << "\n";
+    }
+};
+
+void createFile(const string& filename, int N) {
+    ofstream out(filename, ios::binary);
+    if (!out) {
+        cout << "Ошибка при создании файла\n";
+        return;
+    }
+
+    for (int i = 0; i < N; i++) {
+        Passenger p;
+        cout << "Пассажир №" << i + 1 << ":\n";
+        /*
+        cout << "Фамилия: ";
+        cin >> p.surname;
+        cout << "Имя: ";
+        cin >> p.name;
+        cout << "Отчество: ";
+        cin >> p.secondName;
+        cout << ": ";
+        cin >> p.luggagePlace;
+        cout << ": ";
+        cin >> p.totalWeight;
+        */
+
+        string line;
+        cin >> line;
+        istringstream iss(line);
+        string word;
+        vector<string> words;
+        while (iss >> line) {
+            words.push_back(word);
+        }
+        p.surname = words[0];
+        p.name = words[1];
+        p.secondName = words[2];
+        p.luggagePlace = stoi(words[3]);
+        p.totalWeight = stod(words[4]);
+
+        out.write(reinterpret_cast<char*>(&p), sizeof(Passenger));
+    }
+    out.close();
+}
+
+void lab11() {
+
+}
+
 int main()
 {
     setlocale(LC_ALL, "Russian");
@@ -481,6 +545,6 @@ int main()
     //lab2();
     //lab3();
     //lab4();
-
-    lab10();
+    //lab10();
+    lab11();
 }
