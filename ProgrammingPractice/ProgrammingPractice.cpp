@@ -3,6 +3,9 @@
 #include <vector>
 #include <stdlib.h>
 #include <conio.h>
+#include <fstream>
+#include <sstream>
+#include <algorithm>
 
 using namespace std;
 
@@ -431,11 +434,48 @@ void lab4() {
     ExpandedMatrix();
 }
 
+//lab10
+int lab10() {
+    ifstream inputFile("input.txt");
+    ofstream outputFile("output.txt");
+
+    if (!inputFile.is_open()) {
+        cout << "Не удалось открыть файл input.txt\n";
+        return 1;
+    }
+
+    vector<string> words;
+    string line;
+
+    while (getline(inputFile, line)) {
+       stringstream ss(line);
+        string word;
+
+        while (ss >> word) {
+            words.push_back(word);
+        }
+    }
+
+    inputFile.close();
+
+    sort(words.begin(), words.end());
+
+    for (const string& word : words) {
+        outputFile << word << "\n";
+    }
+
+    outputFile.close();
+
+    cout << "Слова успешно отсортированы и записаны в output.txt\n";
+    return 0;
+}
 int main()
 {
     srand(0);
     //lab1();
     //lab2();
     //lab3();
-    lab4();
+    //lab4();
+
+    lab10();
 }
