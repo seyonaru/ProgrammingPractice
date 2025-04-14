@@ -547,6 +547,33 @@ void viewFile(const string& filename) {
     in.close();
 }
 
+void addRecord(const string& filename) {
+    ofstream out(filename, ios::binary | ios::app);
+    if (!out) {
+        cout << "Ошибка при открытии файла.\n";
+        return;
+    }
+
+    Passenger p;
+    cout << "Введите данные нового пассажира (ФИО полностью, количество мест багажа, общий вес багажа): ";
+    string line;
+    cin >> line;
+    istringstream iss(line);
+    string word;
+    vector<string> words;
+    while (iss >> line) {
+        words.push_back(word);
+    }
+    p.surname = words[0];
+    p.name = words[1];
+    p.secondName = words[2];
+    p.luggagePlace = stoi(words[3]);
+    p.totalWeight = stod(words[4]);
+
+    out.write(reinterpret_cast<char*>(&p), sizeof(Passenger));
+    out.close();
+}
+
 void lab11() {
 
 }
