@@ -530,6 +530,23 @@ void createFile(const string& filename, int N) {
     out.close();
 }
 
+void viewFile(const string& filename) {
+    ifstream in(filename, ios::binary);
+    if (!in) {
+        cout << "Файл не найден.\n";
+        return;
+    }
+
+    Passenger p;
+    int n = 0;
+    cout << "Номер\tФамилия\tИмя\tОтчество\tКол-во багажа\tОбщий вес\n";
+    while(in.read(reinterpret_cast<char*>(&p), sizeof(Passenger))) {
+        cout << ++n;
+        p.print();
+    }
+    in.close();
+}
+
 void lab11() {
 
 }
