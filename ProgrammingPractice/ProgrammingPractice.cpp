@@ -592,7 +592,30 @@ void deletePassenger(const string& filename, const double condition) {
     in.close();
     temp.close();
     remove(filename.c_str());
-    rename("temp.dat", filename.c_str());)
+    rename("temp.dat", filename.c_str());
+}
+
+void changeWeight(const string& filename, const string& surname) {
+    fstream file(filename, ios::binary | ios::in | ios::out);
+    if (!file) {
+        cout << "Файл не найден.\n";
+        return;
+    }
+
+    Passenger p;
+    bool f = 0;
+
+    while (file.read(reinterpret_cast<char*>(&p), sizeof(Passenger))) {
+        if (p.surname == surname) {
+            cout << "Введите новый вес: ";
+            cin >> p.totalWeight;
+            file.seekp(-static_cast<int>(sizeof(Passenger)), ios::cur);
+            file.write(reinterpret_cast<char*>(&p), sizeof(Passenger));
+            f = 1;
+            break;
+        }
+    }
+    file.close();
 }
 
 void lab11() {
