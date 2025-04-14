@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <Windows.h>
 
 using namespace std;
 
@@ -471,6 +472,10 @@ int lab10() {
 }
 int main()
 {
+    setlocale(LC_ALL, "Russian");
+    SetConsoleOutputCP(1251);
+    SetConsoleCP(1251);
+
     srand(0);
     //lab1();
     //lab2();
