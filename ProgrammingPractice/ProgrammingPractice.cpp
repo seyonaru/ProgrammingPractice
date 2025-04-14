@@ -574,6 +574,27 @@ void addRecord(const string& filename) {
     out.close();
 }
 
+void deletePassenger(const string& filename, const double condition) {
+    ifstream in(filename, ios::binary);
+    ofstream temp("temp.dat", ios::binary);
+    if (!in || !temp) {
+        cout << "Ошибка при открытии файла.\n";
+        return;
+    }
+
+    Passenger p;
+    while (in.read(reinterpret_cast<char*>(&p), sizeof(Passenger))) {
+        if (p.totalWeight >= condition) {
+            temp.write(reinterpret_cast<char*>(&p), sizeof(Passenger));
+        }
+    }
+
+    in.close();
+    temp.close();
+    remove(filename.c_str());
+    rename("temp.dat", filename.c_str());)
+}
+
 void lab11() {
 
 }
