@@ -7,6 +7,7 @@
 #include <sstream>
 #include <algorithm>
 #include <Windows.h>
+#include <limits>
 
 using namespace std;
 
@@ -483,7 +484,7 @@ struct Passenger {
         cout << surname << "\t"
             << name << "\t"
             << secondName << "\t"
-            << luggagePlace << "\t"
+            << luggagePlace << "\t\t"
             << totalWeight << "\n";
     }
 };
@@ -497,35 +498,48 @@ void createFile(const string& filename, int N) {
 
     for (int i = 0; i < N; i++) {
         Passenger p;
-        cout << "Пассажир №" << i + 1 << ":\n";
-        /*
-        cout << "Фамилия: ";
-        cin >> p.surname;
-        cout << "Имя: ";
-        cin >> p.name;
-        cout << "Отчество: ";
-        cin >> p.secondName;
-        cout << ": ";
-        cin >> p.luggagePlace;
-        cout << ": ";
-        cin >> p.totalWeight;
-        */
+        cout << "Пассажир №" << i + 1 << " (введите через пробел: Фамилия Имя Отчество Кол-во_мест Вес):\n";
+
+        cin.ignore(1000, '\n');
 
         string line;
-        cin >> line;
+        getline(cin, line);
         istringstream iss(line);
-        string word;
         vector<string> words;
         while (iss >> line) {
-            words.push_back(word);
+            words.push_back(line);
         }
+
+        if (words.size() != 5) {
+            cerr << "Неверный формат ввода. Попробуйте снова.\n";
+            i--;
+            continue;
+        }
+
         p.surname = words[0];
         p.name = words[1];
         p.secondName = words[2];
         p.luggagePlace = stoi(words[3]);
-        p.totalWeight = stod(words[4]);
+        try {
+            
+            p.totalWeight = stod(words[4]);
+        }
+        catch (const invalid_argument& e) {
+            cout << "Ошибка: введено не число для веса.\n";
+            i--;
+            continue;
+        }
+        catch (const out_of_range& e) {
+            cout << "Ошибка: число веса вне диапазона.\n";
+            i--;
+            continue;
+        }
 
-        out.write(reinterpret_cast<char*>(&p), sizeof(Passenger));
+        out.write(p.surname.c_str(), p.surname.size() + 1);
+        out.write(p.name.c_str(), p.name.size() + 1);
+        out.write(p.secondName.c_str(), p.secondName.size() + 1);
+        out.write(reinterpret_cast<char*>(&p.luggagePlace), sizeof(p.luggagePlace));
+        out.write(reinterpret_cast<char*>(&p.totalWeight), sizeof(p.totalWeight));
     }
     out.close();
 }
@@ -539,9 +553,19 @@ void viewFile(const string& filename) {
 
     Passenger p;
     int n = 0;
-    cout << "Номер\tФамилия\tИмя\tОтчество\tКол-во багажа\tОбщий вес\n";
-    while(in.read(reinterpret_cast<char*>(&p), sizeof(Passenger))) {
-        cout << ++n;
+    cout << "№\tФамилия\tИмя\tОтчество\tКол-во багажа\tОбщий вес\n";
+
+    while (true) {
+        getline(in, p.surname, '\0');
+        if (in.eof()) 
+            break;
+        getline(in, p.name, '\0');
+        getline(in, p.secondName, '\0');
+
+        in.read(reinterpret_cast<char*>(&p.luggagePlace), sizeof(p.luggagePlace));
+        in.read(reinterpret_cast<char*>(&p.totalWeight), sizeof(p.totalWeight));
+
+        cout << ++n << "\t";
         p.print();
     }
     in.close();
@@ -556,21 +580,45 @@ void addRecord(const string& filename) {
 
     Passenger p;
     cout << "Введите данные нового пассажира (ФИО полностью, количество мест багажа, общий вес багажа): ";
+
+    cin.ignore(1000, '\n');
+
     string line;
-    cin >> line;
+    getline(cin, line);
     istringstream iss(line);
-    string word;
     vector<string> words;
+
     while (iss >> line) {
-        words.push_back(word);
+        words.push_back(line);
     }
+
+    if (words.size() != 5) {
+        cout << "Неверный формат ввода. Запись не добавлена.\n";
+        return;
+    }
+
     p.surname = words[0];
     p.name = words[1];
     p.secondName = words[2];
-    p.luggagePlace = stoi(words[3]);
-    p.totalWeight = stod(words[4]);
 
-    out.write(reinterpret_cast<char*>(&p), sizeof(Passenger));
+    try {
+        p.luggagePlace = stoi(words[3]);
+        p.totalWeight = stod(words[4]);
+    }
+    catch (const invalid_argument& e) {
+        cout << "Ошибка: введены некорректные числа.\n";
+        return;
+    }
+    catch (const out_of_range& e) {
+        cout << "Ошибка: значение чисел вне диапазона.\n";
+        return;
+    }
+
+    out.write(p.surname.c_str(), p.surname.size() + 1);
+    out.write(p.name.c_str(), p.name.size() + 1);
+    out.write(p.secondName.c_str(), p.secondName.size() + 1);
+    out.write(reinterpret_cast<char*>(&p.luggagePlace), sizeof(p.luggagePlace));
+    out.write(reinterpret_cast<char*>(&p.totalWeight), sizeof(p.totalWeight));
     out.close();
 }
 
@@ -583,9 +631,22 @@ void deletePassenger(const string& filename, const double condition) {
     }
 
     Passenger p;
-    while (in.read(reinterpret_cast<char*>(&p), sizeof(Passenger))) {
+    while (true) {
+        getline(in, p.surname, '\0');
+        if (in.eof()) 
+            break;
+        getline(in, p.name, '\0');
+        getline(in, p.secondName, '\0');
+
+        in.read(reinterpret_cast<char*>(&p.luggagePlace), sizeof(p.luggagePlace));
+        in.read(reinterpret_cast<char*>(&p.totalWeight), sizeof(p.totalWeight));
+
         if (p.totalWeight >= condition) {
-            temp.write(reinterpret_cast<char*>(&p), sizeof(Passenger));
+            temp.write(p.surname.c_str(), p.surname.size() + 1);
+            temp.write(p.name.c_str(), p.name.size() + 1);
+            temp.write(p.secondName.c_str(), p.secondName.size() + 1);
+            temp.write(reinterpret_cast<char*>(&p.luggagePlace), sizeof(p.luggagePlace));
+            temp.write(reinterpret_cast<char*>(&p.totalWeight), sizeof(p.totalWeight));
         }
     }
 
@@ -605,21 +666,97 @@ void changeWeight(const string& filename, const string& surname) {
     Passenger p;
     bool f = 0;
 
-    while (file.read(reinterpret_cast<char*>(&p), sizeof(Passenger))) {
+    while (true) {
+        streampos pos = file.tellg();
+
+        getline(file, p.surname, '\0');
+        if (file.eof()) 
+            break;
+        getline(file, p.name, '\0');
+        getline(file, p.secondName, '\0');
+
+        file.read(reinterpret_cast<char*>(&p.luggagePlace), sizeof(p.luggagePlace));
+        file.read(reinterpret_cast<char*>(&p.totalWeight), sizeof(p.totalWeight));
+
         if (p.surname == surname) {
-            cout << "Введите новый вес: ";
-            cin >> p.totalWeight;
-            file.seekp(-static_cast<int>(sizeof(Passenger)), ios::cur);
-            file.write(reinterpret_cast<char*>(&p), sizeof(Passenger));
+            cout << "Текущий вес: " << p.totalWeight << ". Введите новый вес: ";
+            double newWeight;
+            cin >> newWeight;
+
+            cin.ignore(1000, '\n');
+
+            p.totalWeight = newWeight;
+
+            file.seekp(pos);
+            file.write(p.surname.c_str(), p.surname.size() + 1);
+            file.write(p.name.c_str(), p.name.size() + 1);
+            file.write(p.secondName.c_str(), p.secondName.size() + 1);
+            file.write(reinterpret_cast<char*>(&p.luggagePlace), sizeof(p.luggagePlace));
+            file.write(reinterpret_cast<char*>(&p.totalWeight), sizeof(p.totalWeight));
+
             f = 1;
             break;
         }
     }
+
+    if (!f) {
+        cout << "Пассажир с фамилией " << surname << " не найден.\n";
+    }
+
     file.close();
 }
 
 void lab11() {
+    string filename = "passengers.dat";
+    int key;
 
+    double condition;
+    string surname;
+
+    do {
+        cout << "\nМеню:\n"
+            << "1. Создать файл\n"
+            << "2. Посмотреть файл\n"
+            << "3. Добавить запись\n"
+            << "4. Удалить записи с весом багажа < N\n"
+            << "5. Изменить вес багажа по фамилии\n"
+            << "0. Выход\n"
+            << "Выберите пункт: ";
+        cin >> key;
+
+        switch (key) {
+        case 1: 
+            int N;
+            cout << "Введите количество записей: ";
+            cin.ignore(1000, '\n');
+            cin >> N;
+            createFile(filename, N);
+            break;
+        case 2:
+            viewFile(filename);
+            break;
+        case 3:
+            addRecord(filename);
+            break;
+        case 4:
+            cout << "Удалить пассажиров с весом багажа меньше чем: ";
+            cin >> condition;
+            cin.ignore(1000, '\n');
+            deletePassenger(filename, condition);
+            break;
+        case 5:
+            cout << "Введите фамилию для изменения общего веса багажа: ";
+            cin >> surname;
+            cin.ignore(1000, '\n');
+            changeWeight(filename, surname);
+            break;
+        case 0:
+            cout << "Exiting";
+            break;
+        default:
+            cout << "Неверный пункт выбора меню.\n";
+        }
+    } while (key != 0);
 }
 
 int main()
