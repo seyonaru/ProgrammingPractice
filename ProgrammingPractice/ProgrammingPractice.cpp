@@ -500,7 +500,7 @@ void createFile(const string& filename, int N) {
         Passenger p;
         cout << "Пассажир №" << i + 1 << " (введите через пробел: Фамилия Имя Отчество Кол-во_мест Вес):\n";
 
-        cin.ignore(1000, '\n');
+        cin.ignore(500, '\n');
 
         string line;
         getline(cin, line);
